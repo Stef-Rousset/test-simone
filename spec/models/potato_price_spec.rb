@@ -22,7 +22,7 @@ RSpec.describe PotatoPrice, type: :model do
     expect(pp).not_to be_valid
   end
 
-  it 'should be invalid if amount is less equal to 0' do
+  it 'should be invalid if amount is less or equal to 0' do
     pp = build(:pp_amount_low)
     expect(pp).not_to be_valid
   end

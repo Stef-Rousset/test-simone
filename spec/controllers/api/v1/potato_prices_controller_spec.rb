@@ -26,14 +26,16 @@ RSpec.describe Api::V1::PotatoPricesController, type: :controller do
 
   it 'should return error message if date is invalid when querying index' do
     get :index, params: { format: :json, date: "2024-31-31" }
+    assert_response :unprocessable_entity
     body = JSON.parse(response.body)
     expect(body).to eq({"error"=>"Invalid date"})
   end
 
-  it 'should return error message if no values for the date when querying index' do
+  it 'should return information message if no values for the date when querying index' do
     get :index, params: { format: :json, date: "2025-01-30" }
+    assert_response :success
     body = JSON.parse(response.body)
-    expect(body).to eq({"error"=>"Data not available for that date"})
+    expect(body).to eq({"information"=>"No data for that date"})
   end
 
   it 'should get best_profit' do
@@ -50,13 +52,15 @@ RSpec.describe Api::V1::PotatoPricesController, type: :controller do
 
   it 'should return error message if date is invalid when querying best_profit' do
     get :best_profit, params: { format: :json, date: "2024-31-31" }
+    assert_response :unprocessable_entity
     body = JSON.parse(response.body)
     expect(body).to eq({"error"=>"Invalid date"})
   end
 
-  it 'should return error message if no values for the date when querying best_profit' do
+  it 'should return information message if no values for the date when querying best_profit' do
     get :best_profit, params: { format: :json, date: "2025-01-30" }
+    assert_response :success
     body = JSON.parse(response.body)
-    expect(body).to eq({"error"=>"Data not available for that date"})
+    expect(body).to eq({"information"=>"No data for that date"})
   end
 end

@@ -6,9 +6,9 @@ class Api::V1::PotatoPricesController < ActionController::API
 	    @potato_prices = PotatoPrice.where("price_at >= ?", dates[0])
                                   .where("price_at <= ?", dates[1])
                                   .order(:price_at)
-      render json: { error: "Data not available for that date" } if @potato_prices.empty?
+      render_no_data if @potato_prices.empty?
     else
-      render json: { error: "Invalid date" }
+      render_invalid_date
     end
   end
 
@@ -21,10 +21,20 @@ class Api::V1::PotatoPricesController < ActionController::API
       if values.present?
         @result = 100*(BigDecimal(values.max.to_s) - BigDecimal(values.min.to_s))
       else
-        render json: { error: "Data not available for that date" }
+        render_no_data
       end
     else
-      render json: { error: "Invalid date" }
+      render_invalid_date
     end
+  end
+
+  private
+
+  def render_no_data
+    render json: { information: "No data for that date" }, status: :ok
+  end
+
+  def render_invalid_date
+    render json: { error: "Invalid date" }, status: :unprocessable_entity # http code 422
   end
 end

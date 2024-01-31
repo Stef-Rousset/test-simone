@@ -44,7 +44,7 @@ The available endpoints are :
 - Get all potato prices for a given date<br>
 GET `/api/v1/potato_prices?date=("YYYY-MM-DD")`<br>
 *ex of response:* <br>
-  `{ "time": "2022-08-22T09:00:00.000Z", "value": 100.25, ...}`
+  `[{ "time": "2022-08-22T09:00:00.000Z", "value": 100.25}, {...}]`
 - Get best possible profit for a given date<br>
 GET `/api/v1/potato_prices/best_profit?date=("YYYY-MM-DD")`<br>
 *ex of response:* <br>

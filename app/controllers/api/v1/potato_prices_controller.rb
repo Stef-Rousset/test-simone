@@ -17,7 +17,7 @@ class Api::V1::PotatoPricesController < ActionController::API
     if dates.present?
       values = PotatoPrice.where("price_at >= ?", dates[0])
                           .where("price_at <= ?", dates[1])
-                          .map{|element| element[:amount].to_f}
+                          .map{ |element| element[:amount] }
       if values.present?
         @result = 100*(BigDecimal(values.max.to_s) - BigDecimal(values.min.to_s))
       else

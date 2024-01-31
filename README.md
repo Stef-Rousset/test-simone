@@ -6,7 +6,7 @@
 
 The purpose of this API v1 is to display informations about potato prices on the market.
 
-With this application, you will mainly be able to:
+With this v1 api, you will be able to:
 - get potato prices for a given date,
 - get best profit possible for a given date.
 
@@ -52,7 +52,7 @@ GET `/api/v1/potato_prices/best_profit?date=("YYYY-MM-DD")`<br>
 
 ### Testing ###
 
-Testing is performed with Rspec, using FactoryBot.
+Testing is performed with Rspec.
 
 - testing the models =>
 `rspec spec/models`

@@ -31,6 +31,8 @@ You will also need:
 `bundle install`
 - Initialize the database =>
 `rails db:create db:migrate db:seed`
+- If you need minimum data to play with api =>
+`rails db:seed`
 - You can launch the server with `rails s`.<br>
 The server should only run on `localhost:3000`.<br>
 You should see the homepage of Rails application.

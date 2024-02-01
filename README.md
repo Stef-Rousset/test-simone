@@ -30,7 +30,7 @@ You will also need:
 - Install dependencies =>
 `bundle install`
 - Initialize the database =>
-`rails db:create db:migrate db:seed`
+`rails db:create db:migrate`
 - If you need minimum data to play with api =>
 `rails db:seed`
 - You can launch the server with `rails s`.<br>

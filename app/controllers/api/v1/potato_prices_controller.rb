@@ -17,9 +17,10 @@ class Api::V1::PotatoPricesController < ActionController::API
     if dates.present?
       values = PotatoPrice.where("price_at >= ?", dates[0])
                           .where("price_at <= ?", dates[1])
+                          .order(:price_at)
                           .pluck(:amount)
       if values.present?
-        @result = 100*(BigDecimal(values.max.to_s) - BigDecimal(values.min.to_s))
+        @result = BestProfitHandler.new(values).get_best_profit
       else
         render_no_data
       end

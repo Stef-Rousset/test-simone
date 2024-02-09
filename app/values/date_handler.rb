@@ -1,18 +1,13 @@
 class DateHandler
-  attr_reader :date   #for tests
+  attr_reader :dates   #for tests
 
   def initialize(date)
-    @date = Date.parse(date)
+    @dates = Date.parse(date).all_day
     rescue Date::Error
-      @date = nil
+      @dates = nil
   end
 
   def date_limits
-    if !@date.nil?
-      @year, @month, @day = @date.year, @date.month, @date.day
-	    [DateTime.new(@year, @month, @day), DateTime.new(@year, @month, @day, 23, 59, 59)]
-    else
-      []
-    end
+    @dates.nil? ? [] : [@dates.first, @dates.last]
   end
 end

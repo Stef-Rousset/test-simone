@@ -1,31 +1,22 @@
 class Api::V1::PotatoPricesController < ActionController::API
+  before_action :handle_date
 
   def index
-    dates = DateHandler.new(params[:date]).date_limits
-    if dates.present?
-	    @potato_prices = PotatoPrice.where("price_at >= ?", dates[0])
-                                  .where("price_at <= ?", dates[1])
-                                  .order(:price_at)
-      render_no_data if @potato_prices.empty?
-    else
-      render_invalid_date
-    end
+    @potato_prices = PotatoPrice.from_date(@dates[0])
+                                .to_date(@dates[1])
+                                .order(:price_at)
+    render_no_data if @potato_prices.empty?
   end
 
   def best_profit
-    dates = DateHandler.new(params[:date]).date_limits
-    if dates.present?
-      values = PotatoPrice.where("price_at >= ?", dates[0])
-                          .where("price_at <= ?", dates[1])
-                          .order(:price_at)
-                          .pluck(:amount)
-      if values.present?
-        @result = BestProfitHandler.new(values).get_best_profit
-      else
-        render_no_data
-      end
+    values = PotatoPrice.from_date(@dates[0])
+                        .to_date(@dates[1])
+                        .order(:price_at)
+                        .pluck(:amount)
+    if values.present?
+      @result = BestProfitHandler.new(values).get_best_profit
     else
-      render_invalid_date
+      render_no_data
     end
   end
 
@@ -37,5 +28,10 @@ class Api::V1::PotatoPricesController < ActionController::API
 
   def render_invalid_date
     render json: { error: "Invalid date" }, status: :unprocessable_entity # http code 422
+  end
+
+  def handle_date
+    @dates = DateHandler.new(params[:date]).date_limits
+    render_invalid_date if @dates.empty?
   end
 end
